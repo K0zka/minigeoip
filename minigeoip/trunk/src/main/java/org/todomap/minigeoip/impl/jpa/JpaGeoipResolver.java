@@ -13,6 +13,9 @@ import javax.persistence.PersistenceException;
 import org.springframework.orm.jpa.JpaCallback;
 import org.springframework.orm.jpa.support.JpaDaoSupport;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.TransactionCallback;
+import org.springframework.transaction.support.TransactionTemplate;
 import org.todomap.minigeoip.GeoipResolver;
 import org.todomap.minigeoip.Util;
 
@@ -60,14 +63,31 @@ public class JpaGeoipResolver extends JpaDaoSupport implements GeoipResolver {
 		getJpaTemplate().execute(new JpaCallback() {
 
 			@Override
-			public Object doInJpa(EntityManager em) throws PersistenceException {
-				em.createQuery("delete from " + IpDomain.class.getName())
+			public Object doInJpa(final EntityManager em) throws PersistenceException {
+				new TransactionTemplate(txManager).execute(new TransactionCallback() {
+					
+					@Override
+					public Object doInTransaction(TransactionStatus status) {
+						em.createQuery("delete from " + IpDomain.class.getName())
 						.executeUpdate();
+						return null;
+					}
+				});
 				return null;
 			}
 		});
 		for (final String source : list) {
-			updateFromSource(source);
+			new TransactionTemplate(txManager).execute(new TransactionCallback() {
+				
+				@Override
+				public Object doInTransaction(TransactionStatus status) {
+					try {
+						updateFromSource(source);
+					} catch (IOException e) {
+					}
+					return null;
+				}
+			});
 		}
 	}
 
