@@ -37,4 +37,9 @@ public class JpaGeoipResolverTest extends UnitilsJUnit4 {
 		});
 	}
 
+	@Test
+	public void testUpdate() throws IOException {
+		resolver.update();
+	}
+	
 }
