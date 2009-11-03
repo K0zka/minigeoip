@@ -46,7 +46,7 @@ public class JpaGeoipResolver extends JpaDaoSupport implements GeoipResolver {
 				.find(
 						"select OBJECT(o) from "
 								+ IpDomain.class.getName()
-								+ " o where ? between o.ipInterval.lowip and o.ipInterval.highip",
+								+ " o where ? between o.ipInterval.lowip and o.ipInterval.highip and o.countryCode != 'ZZ'",
 						Util.ipToLong(address));
 		switch (resultList.size()) {
 		case 1:
