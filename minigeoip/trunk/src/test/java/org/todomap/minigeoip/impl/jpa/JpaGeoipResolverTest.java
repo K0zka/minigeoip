@@ -38,6 +38,20 @@ public class JpaGeoipResolverTest extends UnitilsJUnit4 {
 	}
 
 	@Test
+	public void testGetCountryName() {
+		new TransactionTemplate(manager).execute(new TransactionCallback() {
+			
+			@Override
+			public Object doInTransaction(TransactionStatus status) {
+				resolver.persist(Util.ipToLong("128.0.0.0"), Util.ipToLong("128.0.0.0") + 100, "ZZ");
+				Assert.assertNotNull(resolver.getCountryName("128.0.0.10"));
+				Assert.assertEquals("Unknown", resolver.getCountryName("128.0.0.10"));
+				return null;
+			}
+		});
+	}
+	
+	@Test
 	public void testUpdate() throws IOException {
 		resolver.update();
 	}
