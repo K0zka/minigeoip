@@ -3,7 +3,7 @@
 	<groupId>org.todomap</groupId>
 	<artifactId>minigeoip</artifactId>
 	<packaging>jar</packaging>
-	<version>0.0.2</version>
+	<version>0.0.3-SNAPSHOT</version>
 	<name>minigeoip</name>
 	<dependencies>
 		<dependency>
@@ -92,8 +92,8 @@
 		</site>
 	</distributionManagement>
 	<scm>
-		<connection>scm:svn:http://todomap.googlecode.com/svn/minigeoip/tags/minigeoip-0.0.2</connection>
-		<developerConnection>scm:svn:https://todomap.googlecode.com/svn/minigeoip/tags/minigeoip-0.0.2</developerConnection>
-		<url>http://code.google.com/p/todomap/source/browse/tags/minigeoip-0.0.2</url>
+		<connection>scm:svn:http://todomap.googlecode.com/svn/minigeoip/trunk</connection>
+		<developerConnection>scm:svn:https://todomap.googlecode.com/svn/minigeoip/trunk</developerConnection>
+		<url>http://code.google.com/p/todomap/source/browse/trunk</url>
 	</scm>
 </project>
