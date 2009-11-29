@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.List;
+import java.util.Properties;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
@@ -21,7 +22,19 @@ import org.todomap.minigeoip.Util;
 
 public class JpaGeoipResolver extends JpaDaoSupport implements GeoipResolver {
 
+	public JpaGeoipResolver() throws IOException {
+		super();
+		InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("org/todomap/minigeoip/countrycodes.properties");
+		try {
+			countryNames.load(inputStream);
+		} finally {
+			inputStream.close();
+		}
+	}
+
 	PlatformTransactionManager txManager;
+	
+	final Properties countryNames = new Properties();
 
 	public PlatformTransactionManager getTxManager() {
 		return txManager;
@@ -120,6 +133,12 @@ public class JpaGeoipResolver extends JpaDaoSupport implements GeoipResolver {
 		if (find == null) {
 			getJpaTemplate().persist(domain);
 		}
+	}
+
+	@Override
+	public String getCountryName(final String address) {
+		final String countryCode = getCountryCode(address);
+		return countryCode == null ? "Unknown" : countryNames.getProperty(countryCode);
 	}
 
 }
