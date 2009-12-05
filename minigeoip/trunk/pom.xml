@@ -88,7 +88,7 @@
 		<site>
 			<id>todomap.org</id>
 			<name>todomap.org maven sites place</name>
-			<url>scp://todomap.org:/var/www/mavensites/geocoder/</url>
+			<url>scp://todomap.org:/var/www/mavensites/${artifactId}/</url>
 		</site>
 	</distributionManagement>
 	<scm>
